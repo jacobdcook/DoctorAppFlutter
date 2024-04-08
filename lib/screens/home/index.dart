@@ -6,6 +6,7 @@ import 'package:doctorapp/screens/profile/index.dart';
 import 'package:doctorapp/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:doctorapp/screens/patientInfo/index.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -293,7 +294,25 @@ class Home extends StatelessWidget {
                   },
                 ),
               ),
-
+              InkWell(
+                onTap: () {
+                  Get.to(GeneralPatientInformationScreen());
+                },
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  width: Get.width,
+                  height: Get.height * 0.06,
+                  decoration: BoxDecoration(
+                      color: ColorssA.primaryColor,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                    child: Text(
+                      'Patient Info',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              )
               // InkWell(
               //   onTap: (){
               //     Get.to(ScheduleDateTimeScreen());
