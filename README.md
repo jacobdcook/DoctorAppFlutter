@@ -30,7 +30,7 @@ These instructions will help you set up the project on your local machine for de
 
 ### Installation
 
-1. Clone the repo: `git clone https://github.com/your-username/electronic-medical-records-app.git`
+1. Clone the repo: `git clone https://github.com/jacobdcook/electronic-medical-records-app.git`
 2. Retrieve packages: `flutter pub get`
 3. Set up Firebase
    - Create a new Firebase project
