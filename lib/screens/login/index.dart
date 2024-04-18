@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctorapp/helper/routeHelper.dart';
 import 'package:doctorapp/screens/home/index.dart';
 import 'package:doctorapp/utils/colors.dart';
@@ -40,6 +41,29 @@ class _SignInScreenState extends State<SignInScreen> {
       User? user = userCredential.user;
       if (user != null) {
         print('User logged in: ${user.email}');
+
+        // Find the patient document with the user's email
+        QuerySnapshot patientSnapshot = await FirebaseFirestore.instance
+            .collection('patients')
+            .where('user', isEqualTo: user.email)
+            .get();
+
+        if (patientSnapshot.docs.isNotEmpty) {
+          DocumentSnapshot patientDoc = patientSnapshot.docs.first;
+          String firstName = patientDoc.get('fName');
+          String lastName = patientDoc.get('lName');
+
+          // Store the user's first and last name in Firestore
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.email)
+              .set({
+            'fName': firstName,
+            'lName': lastName,
+            'email': user.email,
+          });
+        }
+
         Get.off(Home());
       } else {
         print('User is null');
@@ -87,41 +111,36 @@ class _SignInScreenState extends State<SignInScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
                 Center(
-                    child: Image.asset(
-                  "assets/images/auth.jpg",
-                  height: 250,
-                  width: 350,
-                )),
-                const SizedBox(
-                  height: 20,
+                  child: Image.asset(
+                    "assets/images/auth.jpg",
+                    height: 250,
+                    width: 350,
+                  ),
                 ),
+                const SizedBox(height: 20),
                 Text(
                   'Sign in',
                   style: poppinsMedium.copyWith(
-                      color: ColorssA.blackColor,
-                      fontSize: Dimensions.fontSizeOverLarge,
-                      fontWeight: FontWeight.w700),
+                    color: ColorssA.blackColor,
+                    fontSize: Dimensions.fontSizeOverLarge,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
+                const SizedBox(height: 15),
                 MyTextField(
-                    controller: _emailController,
-                    lableText: 'Email',
-                    textInputType: TextInputType.emailAddress,
-                    onChanged: (email) {
-                      print('onChange-------------- ');
-                    },
-                    isEmail: true,
-                    hintText: 'Enter Your Email',
-                    titleText: 'Email'),
-                SizedBox(
-                  height: 10,
+                  controller: _emailController,
+                  lableText: 'Email',
+                  textInputType: TextInputType.emailAddress,
+                  onChanged: (email) {
+                    print('onChange-------------- ');
+                  },
+                  isEmail: true,
+                  hintText: 'Enter Your Email',
+                  titleText: 'Email',
                 ),
+                SizedBox(height: 10),
                 MyTextField(
                   controller: _passwordController,
                   lableText: "Password",
@@ -132,9 +151,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   isPassword: true,
                   selectedPass: true,
                 ),
-                SizedBox(
-                  height: 15,
-                ),
+                SizedBox(height: 15),
                 Center(
                   child: ButtonWight(
                     buttonText: _isLoading ? "Loading..." : "Login",
@@ -143,40 +160,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: Get.height * 0.08,
                     loading: _isLoading,
                     onClick: _isLoading ? null : _signInWithEmailAndPassword,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.toNamed(RouteHelper.getSignUp());
-                  },
-                  child: Center(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 15),
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(color: Theme.of(context).hintColor),
-                          children: [
-                            const TextSpan(
-                              text: "Don't have account ? ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            TextSpan(
-                              text: 'Sign Up',
-                              style: TextStyle(
-                                  color: ColorssA.blackColor,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.none),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                   ),
                 ),
               ],

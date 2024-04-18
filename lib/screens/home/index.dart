@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctorapp/appoinmentBook/index.dart';
 import 'package:doctorapp/helper/routeHelper.dart';
 import 'package:doctorapp/screens/bookingList/index.dart';
@@ -9,9 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:doctorapp/screens/patientInfo/index.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   List category = [
     {"name": "Consultation", "color": Colors.red.withOpacity(0.5)},
     {"name": "Dental", "color": Colors.blue.withOpacity(0.5)},
@@ -33,6 +39,35 @@ class Home extends StatelessWidget {
     {"name": "Gunjan", "specialist": "Dental", "img": "assets/images/doc.jpg"}
   ];
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
+
+  String? firstName;
+  String? lastName;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserInfo();
+  }
+
+  Future<void> _getUserInfo() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.email)
+          .get();
+      if (userSnapshot.exists) {
+        Map<String, dynamic>? userData =
+            userSnapshot.data() as Map<String, dynamic>?;
+        if (userData != null) {
+          setState(() {
+            firstName = userData['fName'];
+            lastName = userData['lName'];
+          });
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,18 +159,29 @@ class Home extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    firstName != null && lastName != null
+                        ? Text(
+                            'Hey, $firstName $lastName',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                     InkWell(
-                        onTap: () {
-                          _key.currentState!.openDrawer();
-                        },
-                        child: Icon(Icons.menu)),
+                      onTap: () {
+                        _key.currentState!.openDrawer();
+                      },
+                      child: const Icon(Icons.menu),
+                    ),
                     Container(
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      child: Icon(Icons.person_pin),
+                      child: const Icon(Icons.person_pin),
                     )
                   ],
                 ),
