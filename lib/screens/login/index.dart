@@ -5,6 +5,7 @@ import 'package:doctorapp/utils/dimentions.dart';
 import 'package:doctorapp/utils/style.dart';
 import 'package:doctorapp/widgets/customButton.dart';
 import 'package:doctorapp/widgets/mytextfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,25 +18,67 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _passwordController = TextEditingController();
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool _isLoading = false;
   GlobalKey<ScaffoldState> _globalKey = GlobalKey();
-
 
   @override
   void initState() {
     super.initState();
+  }
 
+  Future<void> _signInWithEmailAndPassword() async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      User? user = userCredential.user;
+      if (user != null) {
+        print('User logged in: ${user.email}');
+        Get.off(Home());
+      } else {
+        print('User is null');
+      }
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      if (e.code == 'user-not-found') {
+        errorMessage = 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Wrong password provided for that user.';
+      } else {
+        errorMessage = e.message ?? 'An unknown error occurred.';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: _globalKey,
       backgroundColor: ColorssA.whiteColor,
-      body:  SafeArea(
+      body: SafeArea(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 15),
           child: SingleChildScrollView(
@@ -47,9 +90,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                Center(child: Image.asset("assets/images/auth.jpg",height: 250,width: 350,)),
-
-
+                Center(
+                    child: Image.asset(
+                  "assets/images/auth.jpg",
+                  height: 250,
+                  width: 350,
+                )),
                 const SizedBox(
                   height: 20,
                 ),
@@ -63,64 +109,40 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(
                   height: 15,
                 ),
-
-
                 MyTextField(
                     controller: _emailController,
                     lableText: 'Email',
                     textInputType: TextInputType.emailAddress,
-                    // onTap: () {},
-                    // onSubmit: () {},
                     onChanged: (email) {
                       print('onChange-------------- ');
-                      // loginController.addSigupdata(
-                      //     "email", email);
-                    } ,isEmail: true,
+                    },
+                    isEmail: true,
                     hintText: 'Enter Your Email',
                     titleText: 'Email'),
                 SizedBox(
                   height: 10,
                 ),
-                // Text(
-                //   'Password',
-                //   style: TextStyle(
-                //       color: ColorssA.blackColor,
-                //       fontSize: 15,
-                //       fontWeight: FontWeight.w500),
-                // ),
                 MyTextField(
                   controller: _passwordController,
                   lableText: "Password",
-
-                  // onTap: () {},
-                  // onSubmit: () {},
-                  onChanged: (password) {
-                    // loginController.addSigupdata(
-                    //     "password", password);
-                  },
+                  onChanged: (password) {},
                   hintText: 'Enter Your Password',
                   titleText: 'Password',
                   maxLines: 1,
                   isPassword: true,
                   selectedPass: true,
                 ),
-
-
                 SizedBox(
-                  height:15,
+                  height: 15,
                 ),
                 Center(
                   child: ButtonWight(
-                    buttonText: "Login",
+                    buttonText: _isLoading ? "Loading..." : "Login",
                     borderButton: false,
                     width: Get.width * 0.9,
                     height: Get.height * 0.08,
-                    // loading: load,
-                    onClick: () =>
-                    {
-                      Get.to(Home())
-
-                    },
+                    loading: _isLoading,
+                    onClick: _isLoading ? null : _signInWithEmailAndPassword,
                   ),
                 ),
                 const SizedBox(
@@ -135,11 +157,10 @@ class _SignInScreenState extends State<SignInScreen> {
                       margin: EdgeInsets.symmetric(horizontal: 15),
                       child: RichText(
                         text: TextSpan(
-                          style: TextStyle(
-                              color: Theme.of(context).hintColor),
+                          style: TextStyle(color: Theme.of(context).hintColor),
                           children: [
                             const TextSpan(
-                              text: "Don’t have account ? ",
+                              text: "Don't have account ? ",
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                               ),
@@ -147,11 +168,10 @@ class _SignInScreenState extends State<SignInScreen> {
                             TextSpan(
                               text: 'Sign Up',
                               style: TextStyle(
-                                  color:  ColorssA.blackColor,
+                                  color: ColorssA.blackColor,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  decoration:
-                                  TextDecoration.none),
+                                  decoration: TextDecoration.none),
                             ),
                           ],
                         ),
@@ -159,82 +179,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                 ),
-                // const SizedBox(
-                //   height: 15,
-                // ),
-                // Center(
-                //   child: Row(
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Container(width: 100,height: 1,color: Colors.black.withOpacity(.2),),
-                //       Text(
-                //         ' Or login with ',
-                //         style: TextStyle(
-                //           // color: ColorssA.Black.withOpacity(0.5),
-                //             fontWeight: FontWeight.w500,
-                //             fontSize: 15),
-                //       ),
-                //       Container(width: 100,height: 1,color: Colors.black.withOpacity(.2),),
-                //
-                //     ],
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 15,
-                // ),
-                // Center(
-                //   child: Container(
-                //     margin:
-                //     const EdgeInsets.symmetric(horizontal: 5),
-                //     decoration: BoxDecoration(
-                //         gradient: ColorssA.AppLinears,
-                //         borderRadius: BorderRadius.circular(10)),
-                //     padding:
-                //     const EdgeInsets.only(left: 0, right: 0),
-                //     child: MaterialButton(
-                //       padding:
-                //       const EdgeInsets.symmetric(vertical: 8),
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(10),
-                //       ),
-                //       color: Colors.transparent,
-                //       // color: Colors.teal[100],
-                //       elevation: 0,
-                //       onPressed: () {
-                //         // loginController.loginWithSignup(context);
-                //       },
-                //
-                //       child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           Image.asset(
-                //             Images.google,
-                //             width: 30,
-                //             height: 30,
-                //           ),
-                //           const SizedBox(
-                //             width: 20,
-                //           ),
-                //           Text(
-                //             "Continue with Google",
-                //             style: TextStyle(
-                //                 color: ColorssA.whiteColor,
-                //                 fontSize: 15),
-                //           )
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 15,
-                // ),
               ],
             ),
           ),
         ),
-      )
+      ),
     );
   }
 }

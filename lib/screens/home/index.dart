@@ -4,6 +4,7 @@ import 'package:doctorapp/screens/bookingList/index.dart';
 import 'package:doctorapp/screens/form/formScreen.dart';
 import 'package:doctorapp/screens/profile/index.dart';
 import 'package:doctorapp/utils/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:doctorapp/screens/patientInfo/index.dart';
@@ -35,14 +36,17 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      print('User is logged in: ${user.email}');
+    } else {
+      print('User is not logged in');
+    }
+
     return Scaffold(
       key: _key,
       drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
         child: ListView(
-          // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
@@ -66,7 +70,7 @@ class Home extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'John Dave',
+                    user?.email ?? 'Guest',
                     style: TextStyle(color: Colors.white),
                   ),
                 ],
@@ -214,7 +218,6 @@ class Home extends StatelessWidget {
                   );
                 },
               ),
-
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                 child: Row(
@@ -229,7 +232,6 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
-
               SizedBox(
                 height: Get.height * 0.35,
                 child: ListView.builder(
@@ -313,20 +315,6 @@ class Home extends StatelessWidget {
                   ),
                 ),
               )
-              // InkWell(
-              //   onTap: (){
-              //     Get.to(ScheduleDateTimeScreen());
-              //   },
-              //   child: Container(
-              //     margin: EdgeInsets.symmetric(horizontal: 15),
-              //     width: Get.width,
-              //     height: Get.height * 0.06,
-              //     decoration: BoxDecoration(
-              //         color: ColorssA.primaryColor,
-              //         borderRadius: BorderRadius.circular(10)),
-              //     child: Center(child: Text('Book Now',style: TextStyle(color: Colors.white),),),
-              //   ),
-              // )
             ],
           ),
         ),
