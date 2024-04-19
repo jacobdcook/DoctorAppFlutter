@@ -8,7 +8,19 @@ class LabTestsScreen extends StatefulWidget {
 }
 
 class _LabTestsScreenState extends State<LabTestsScreen> {
-  // Define your lab test data and methods here
+  List<Map<String, dynamic>> labTests = [
+    {
+      'title': 'Blood Test',
+      'date': '2023-04-01',
+      'results': 'Normal',
+    },
+    {
+      'title': 'X-Ray (Chest)',
+      'date': '2022-09-15',
+      'results': 'No abnormalities detected',
+    },
+    // Add more lab test entries here
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +28,36 @@ class _LabTestsScreenState extends State<LabTestsScreen> {
       appBar: AppBar(
         title: Text('Lab Tests'),
       ),
-      body: Center(
-        child: Text('Lab Tests Screen'),
+      body: ListView.builder(
+        itemCount: labTests.length,
+        itemBuilder: (context, index) {
+          final test = labTests[index];
+          return Card(
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    test['title']!,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Date: ${test['date']}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Results: ${test['results']}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

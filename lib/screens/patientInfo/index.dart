@@ -49,8 +49,30 @@ class _GeneralPatientInformationScreenState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('First Name: ${patientData['fName']}'),
-                  Text('Last Name: ${patientData['lName']}'),
+                  Text(
+                    'First Name: ${patientData['fName']}',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Last Name: ${patientData['lName']}',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Email: ${patientData['email']}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Phone: ${patientData['phone']}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Address: ${patientData['address']}',
+                    style: TextStyle(fontSize: 16),
+                  ),
                   // Add more fields as needed
                 ],
               ),
