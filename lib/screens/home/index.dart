@@ -5,6 +5,11 @@ import 'package:doctorapp/screens/bookingList/index.dart';
 import 'package:doctorapp/screens/educationalResources/educationalResourcesScreen.dart';
 import 'package:doctorapp/screens/form/formScreen.dart';
 import 'package:doctorapp/screens/patientInfo/index.dart';
+import 'package:doctorapp/screens/patientInfo/patientHealthHistory.dart';
+import 'package:doctorapp/screens/patientInfo/patientFamilyTracker.dart';
+import 'package:doctorapp/screens/patientInfo/medicalDiagnosis.dart';
+import 'package:doctorapp/screens/patientInfo/labTests.dart';
+import 'package:doctorapp/screens/patientInfo/prescriptionTracker.dart';
 import 'package:doctorapp/screens/profile/index.dart';
 import 'package:doctorapp/screens/teleMedicine/teleMedicineScreen.dart';
 import 'package:doctorapp/utils/colors.dart';
@@ -29,6 +34,11 @@ class _HomeState extends State<Home> {
     {"name": "Physics", "color": Colors.teal.withOpacity(0.5)},
     {"name": "Skin", "color": Colors.lightGreenAccent.withOpacity(0.5)},
     {"name": "Surgeon", "color": Colors.blue.withOpacity(0.5)},
+    {"name": "Patient Health History", "color": Colors.brown.withOpacity(0.5)},
+    {"name": "Family Tracker", "color": Colors.deepPurple.withOpacity(0.5)},
+    {"name": "Medical Diagnosis", "color": Colors.pink.withOpacity(0.5)},
+    {"name": "Lab Tests", "color": Colors.orange.withOpacity(0.5)},
+    {"name": "Prescriptions", "color": Colors.indigo.withOpacity(0.5)},
   ];
 
   List<Map<String, dynamic>> doctorList = [
@@ -268,11 +278,24 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       if (category[index]['name'] == 'Telemedicine') {
                         Get.to(() => TeleMedicineScreen());
+                      } else if (category[index]['name'] ==
+                          'Patient Health History') {
+                        Get.to(() => PatientHealthHistoryScreen());
+                      } else if (category[index]['name'] == 'Family Tracker') {
+                        Get.to(() => PatientFamilyTrackerScreen());
+                      } else if (category[index]['name'] ==
+                          'Medical Diagnosis') {
+                        Get.to(() => MedicalDiagnosisScreen());
+                      } else if (category[index]['name'] == 'Lab Tests') {
+                        Get.to(() => LabTestsScreen());
+                      } else if (category[index]['name'] == 'Prescriptions') {
+                        Get.to(() => PrescriptionTrackerScreen());
                       } else {
                         Get.to(FormPage());
                       }
                     },
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           padding: EdgeInsets.all(15),
@@ -291,6 +314,7 @@ class _HomeState extends State<Home> {
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
