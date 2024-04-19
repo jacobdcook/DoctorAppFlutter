@@ -11,6 +11,7 @@ import 'package:doctorapp/screens/patientInfo/medicalDiagnosis.dart';
 import 'package:doctorapp/screens/patientInfo/labTests.dart';
 import 'package:doctorapp/screens/patientInfo/prescriptionTracker.dart';
 import 'package:doctorapp/screens/profile/index.dart';
+import 'package:doctorapp/screens/signUp/patientRegistration.dart';
 import 'package:doctorapp/screens/teleMedicine/teleMedicineScreen.dart';
 import 'package:doctorapp/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -160,6 +161,12 @@ class _HomeState extends State<Home> {
                 title: const Text('Telemedicine'),
                 onTap: () {
                   Get.to(() => TeleMedicineScreen());
+                },
+              ),
+              ListTile(
+                title: const Text('Register a Patient'),
+                onTap: () {
+                  Get.to(PatientRegistrationScreen());
                 },
               ),
               ListTile(
