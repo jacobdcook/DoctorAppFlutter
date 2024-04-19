@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctorapp/appoinmentBook/index.dart';
 import 'package:doctorapp/helper/routeHelper.dart';
 import 'package:doctorapp/screens/bookingList/index.dart';
+import 'package:doctorapp/screens/educationalResources/educationalResourcesScreen.dart';
 import 'package:doctorapp/screens/form/formScreen.dart';
 import 'package:doctorapp/screens/patientInfo/index.dart';
 import 'package:doctorapp/screens/profile/index.dart';
+import 'package:doctorapp/screens/teleMedicine/teleMedicineScreen.dart';
 import 'package:doctorapp/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -139,6 +141,18 @@ class _HomeState extends State<Home> {
                 },
               ),
               ListTile(
+                title: const Text('Educational Resources'),
+                onTap: () {
+                  Get.to(() => EducationalResourcesScreen());
+                },
+              ),
+              ListTile(
+                title: const Text('Telemedicine'),
+                onTap: () {
+                  Get.to(() => TeleMedicineScreen());
+                },
+              ),
+              ListTile(
                 title: Row(
                   children: [
                     const Text(
@@ -252,7 +266,11 @@ class _HomeState extends State<Home> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      Get.to(FormPage());
+                      if (category[index]['name'] == 'Telemedicine') {
+                        Get.to(() => TeleMedicineScreen());
+                      } else {
+                        Get.to(FormPage());
+                      }
                     },
                     child: Column(
                       children: [
