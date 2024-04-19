@@ -3,12 +3,12 @@ import 'package:doctorapp/appoinmentBook/index.dart';
 import 'package:doctorapp/helper/routeHelper.dart';
 import 'package:doctorapp/screens/bookingList/index.dart';
 import 'package:doctorapp/screens/form/formScreen.dart';
+import 'package:doctorapp/screens/patientInfo/index.dart';
 import 'package:doctorapp/screens/profile/index.dart';
 import 'package:doctorapp/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:doctorapp/screens/patientInfo/index.dart';
 
 class Home extends StatefulWidget {
   Home({super.key});
@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List category = [
+  List<Map<String, dynamic>> category = [
     {"name": "Consultation", "color": Colors.red.withOpacity(0.5)},
     {"name": "Dental", "color": Colors.blue.withOpacity(0.5)},
     {"name": "Heart", "color": Colors.green.withOpacity(0.5)},
@@ -29,15 +29,16 @@ class _HomeState extends State<Home> {
     {"name": "Surgeon", "color": Colors.blue.withOpacity(0.5)},
   ];
 
-  List doctorList = [
+  List<Map<String, dynamic>> doctorList = [
     {"name": "John", "specialist": "Heart", "img": "assets/images/doc3.jpg"},
     {
       "name": "Kajol",
-      "specialist": "Gay conic",
+      "specialist": "General Clinic",
       "img": "assets/images/doc2.png"
     },
     {"name": "Gunjan", "specialist": "Dental", "img": "assets/images/doc.jpg"}
   ];
+
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
   String? firstName;
@@ -81,72 +82,81 @@ class _HomeState extends State<Home> {
     return Scaffold(
       key: _key,
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: ColorssA.primaryColor,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
+        child: Padding(
+          padding: EdgeInsets.only(left: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: ColorssA.primaryColor,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Icon(
+                        Icons.person_pin,
+                        size: 35,
+                        color: Colors.white,
+                      ),
                     ),
-                    child: Icon(
-                      Icons.person_pin,
-                      size: 35,
-                      color: Colors.white,
+                    Text(
+                      user?.email ?? 'Guest',
+                      style: TextStyle(color: Colors.white),
                     ),
-                  ),
-                  Text(
-                    user?.email ?? 'Guest',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            ListTile(
-              title: const Text('Book Appointment'),
-              onTap: () {
-                Get.to(FormPage());
-              },
-            ),
-            ListTile(
-              title: const Text('Booking List'),
-              onTap: () {
-                Get.to(BookingList());
-              },
-            ),
-            ListTile(
-              title: const Text('Profile'),
-              onTap: () {
-                Get.to(Profile());
-              },
-            ),
-            ListTile(
-              title: Row(
-                children: [
-                  const Text(
-                    'Logout ',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  Icon(
-                    Icons.logout,
-                    color: Colors.red,
-                  )
-                ],
+              ListTile(
+                title: const Text('Book Appointment'),
+                onTap: () {
+                  Get.to(FormPage());
+                },
               ),
-              onTap: () {
-                Get.toNamed(RouteHelper.getLogin());
-              },
-            ),
-          ],
+              ListTile(
+                title: const Text('Booking List'),
+                onTap: () {
+                  Get.to(BookingList());
+                },
+              ),
+              ListTile(
+                title: const Text('Patient Information'),
+                onTap: () {
+                  Get.to(GeneralPatientInformationScreen());
+                },
+              ),
+              ListTile(
+                title: const Text('Profile'),
+                onTap: () {
+                  Get.to(Profile());
+                },
+              ),
+              ListTile(
+                title: Row(
+                  children: [
+                    const Text(
+                      'Logout ',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    Icon(
+                      Icons.logout,
+                      color: Colors.red,
+                    )
+                  ],
+                ),
+                onTap: () {
+                  Get.toNamed(RouteHelper.getLogin());
+                },
+              ),
+            ],
+          ),
         ),
       ),
       body: SafeArea(
@@ -157,23 +167,29 @@ class _HomeState extends State<Home> {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    firstName != null && lastName != null
-                        ? Text(
-                            'Hey, $firstName $lastName',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        : const SizedBox.shrink(),
                     InkWell(
                       onTap: () {
                         _key.currentState!.openDrawer();
                       },
-                      child: const Icon(Icons.menu),
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: const Icon(Icons.menu),
+                      ),
+                    ),
+                    Expanded(
+                      child: firstName != null && lastName != null
+                          ? Text(
+                              'Hey, $firstName $lastName',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                          : const SizedBox.shrink(),
                     ),
                     Container(
                       width: 50,
@@ -232,7 +248,7 @@ class _HomeState extends State<Home> {
                     crossAxisSpacing: 0.0,
                     mainAxisSpacing: 10.0,
                     childAspectRatio: 2 / 2),
-                itemCount: 8,
+                itemCount: category.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
@@ -281,7 +297,7 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: Get.height * 0.35,
                 child: ListView.builder(
-                  itemCount: 3,
+                  itemCount: doctorList.length,
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
@@ -342,25 +358,6 @@ class _HomeState extends State<Home> {
                   },
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  Get.to(GeneralPatientInformationScreen());
-                },
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  width: Get.width,
-                  height: Get.height * 0.06,
-                  decoration: BoxDecoration(
-                      color: ColorssA.primaryColor,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Center(
-                    child: Text(
-                      'Patient Info',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         ),
