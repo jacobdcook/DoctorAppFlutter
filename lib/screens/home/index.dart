@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
     {"name": "Heart", "color": Colors.green.withOpacity(0.5)},
     {"name": "Hospitals", "color": Colors.purple.withOpacity(0.5)},
     {"name": "Medicals", "color": Colors.amber.withOpacity(0.5)},
-    {"name": "Physics", "color": Colors.teal.withOpacity(0.5)},
+    {"name": "Physicals", "color": Colors.teal.withOpacity(0.5)},
     {"name": "Skin", "color": Colors.lightGreenAccent.withOpacity(0.5)},
     {"name": "Surgeon", "color": Colors.blue.withOpacity(0.5)},
     {"name": "Patient Health History", "color": Colors.brown.withOpacity(0.5)},

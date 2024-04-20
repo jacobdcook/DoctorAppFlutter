@@ -13,7 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   focus_detector: ^2.0.1
-  date_picker_timeline: 1.2.5
+  date_picker_timeline: ^1.2.6
   cloud_firestore: ^4.16.0
   firebase_core: ^2.28.0
   firebase_auth: ^4.0.1
