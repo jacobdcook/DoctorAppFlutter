@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class PatientRegistrationScreen extends StatefulWidget {
@@ -27,25 +26,12 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
   Future<void> _registerPatient() async {
     if (_formKey.currentState!.validate()) {
       try {
-        // Create a new user account in Firebase Authentication
-        UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _emailController.text,
-          password:
-              'patientpassword', // You can prompt the user for a password or generate one securely
-        );
-
         // Store the patient data in Firestore
-        await FirebaseFirestore.instance
-            .collection('patients')
-            .doc(userCredential.user!.uid)
-            .set({
+        await FirebaseFirestore.instance.collection('patients').add({
           'name': _nameController.text,
           'email': _emailController.text,
           'phone': _phoneController.text,
           'address': _addressController.text,
-          'user': userCredential
-              .user!.email, // Store the user's email for reference
         });
 
         // Navigate back or show a success message

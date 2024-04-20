@@ -42,24 +42,21 @@ class _SignInScreenState extends State<SignInScreen> {
       if (user != null) {
         print('User logged in: ${user.email}');
 
-        // Find the patient document with the user's email
-        QuerySnapshot patientSnapshot = await FirebaseFirestore.instance
+        // Find the patient document with the user's UID
+        DocumentSnapshot patientSnapshot = await FirebaseFirestore.instance
             .collection('patients')
-            .where('user', isEqualTo: user.email)
+            .doc(user.uid)
             .get();
 
-        if (patientSnapshot.docs.isNotEmpty) {
-          DocumentSnapshot patientDoc = patientSnapshot.docs.first;
-          String firstName = patientDoc.get('fName');
-          String lastName = patientDoc.get('lName');
+        if (patientSnapshot.exists) {
+          String firstName = patientSnapshot.get('name');
 
-          // Store the user's first and last name in Firestore
+          // Store the user's first name in Firestore
           await FirebaseFirestore.instance
               .collection('users')
               .doc(user.email)
               .set({
-            'fName': firstName,
-            'lName': lastName,
+            'name': firstName,
             'email': user.email,
           });
         }

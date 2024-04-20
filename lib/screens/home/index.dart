@@ -10,6 +10,7 @@ import 'package:doctorapp/screens/patientInfo/patientFamilyTracker.dart';
 import 'package:doctorapp/screens/patientInfo/medicalDiagnosis.dart';
 import 'package:doctorapp/screens/patientInfo/labTests.dart';
 import 'package:doctorapp/screens/patientInfo/prescriptionTracker.dart';
+import 'package:doctorapp/screens/patients/patients_screen.dart';
 import 'package:doctorapp/screens/profile/index.dart';
 import 'package:doctorapp/screens/signUp/patientRegistration.dart';
 import 'package:doctorapp/screens/teleMedicine/teleMedicineScreen.dart';
@@ -54,8 +55,7 @@ class _HomeState extends State<Home> {
 
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
 
-  String? firstName;
-  String? lastName;
+  String? name;
 
   @override
   void initState() {
@@ -75,8 +75,7 @@ class _HomeState extends State<Home> {
             userSnapshot.data() as Map<String, dynamic>?;
         if (userData != null) {
           setState(() {
-            firstName = userData['fName'];
-            lastName = userData['lName'];
+            name = userData['name'];
           });
         }
       }
@@ -126,6 +125,12 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
+              ),
+              ListTile(
+                title: const Text('Patients'),
+                onTap: () {
+                  Get.to(PatientsScreen());
+                },
               ),
               ListTile(
                 title: const Text('Book Appointment'),
@@ -210,9 +215,9 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                     Expanded(
-                      child: firstName != null && lastName != null
+                      child: name != null
                           ? Text(
-                              'Hey, $firstName $lastName',
+                              'Hey, $name',
                               style: TextStyle(
                                 color: Colors.red,
                                 fontSize: 18,

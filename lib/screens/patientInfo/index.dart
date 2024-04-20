@@ -11,7 +11,7 @@ class GeneralPatientInformationScreen extends StatefulWidget {
 
 class _GeneralPatientInformationScreenState
     extends State<GeneralPatientInformationScreen> {
-  late Map<String, dynamic> patientData;
+  Map<String, dynamic> patientData = {};
 
   @override
   void initState() {
@@ -22,11 +22,8 @@ class _GeneralPatientInformationScreenState
   Future<void> getPatientInformation() async {
     CollectionReference patientsCollection =
         FirebaseFirestore.instance.collection('patients');
-
-    // Replace "111222333" with the actual patient ID you want to retrieve
     DocumentSnapshot patientSnapshot =
-        await patientsCollection.doc("111222333").get();
-
+        await patientsCollection.doc("3ynenDeXwfQ7uZdlQjSfmoAU6CP2").get();
     if (patientSnapshot.exists) {
       setState(() {
         patientData = patientSnapshot.data() as Map<String, dynamic>;
@@ -50,27 +47,27 @@ class _GeneralPatientInformationScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'First Name: ${patientData['fName']}',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Last Name: ${patientData['lName']}',
+                    'Name: ${patientData['name'] ?? ''}',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Email: ${patientData['email']}',
+                    'Email: ${patientData['email'] ?? ''}',
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Phone: ${patientData['phone']}',
+                    'Phone: ${patientData['phone'] ?? ''}',
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 8),
                   Text(
-                    'Address: ${patientData['address']}',
+                    'Address: ${patientData['address'] ?? ''}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'User: ${patientData['user'] ?? ''}',
                     style: TextStyle(fontSize: 16),
                   ),
                   // Add more fields as needed
