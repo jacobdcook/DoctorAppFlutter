@@ -1,22 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doctorapp/screens/patientInfo/patientFamilyTracker.dart';
+import 'package:doctorapp/screens/patientInfo/medicalDiagnosis.dart';
 import 'package:flutter/material.dart';
 
-class SearchFamilyTrackerScreen extends StatefulWidget {
-  const SearchFamilyTrackerScreen({Key? key}) : super(key: key);
+class SearchMedicalDiagnosisScreen extends StatefulWidget {
+  const SearchMedicalDiagnosisScreen({Key? key}) : super(key: key);
 
   @override
-  _SearchFamilyTrackerScreenState createState() => _SearchFamilyTrackerScreenState();
+  _SearchMedicalDiagnosisScreenState createState() =>_SearchMedicalDiagnosisScreenState();
 }
 
-class _SearchFamilyTrackerScreenState extends State<SearchFamilyTrackerScreen> {
+class _SearchMedicalDiagnosisScreenState extends State<SearchMedicalDiagnosisScreen> {
   String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Family Tracker'),
+        title: Text('Medical Diagnosis'),
       ),
       body: Column(
         children: [
@@ -57,7 +57,7 @@ class _SearchFamilyTrackerScreenState extends State<SearchFamilyTrackerScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                PatientFamilyTrackerScreen(patient: patient),
+                                MedicalDiagnosisScreen(patient: patient),
                             ),
                           );
                         },

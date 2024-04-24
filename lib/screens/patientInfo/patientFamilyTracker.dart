@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PatientFamilyTrackerScreen extends StatefulWidget {
   final Map<String, dynamic>? patient;
-
   const PatientFamilyTrackerScreen({Key? key, required this.patient}) : super(key: key);
 
   @override
@@ -14,7 +13,7 @@ class PatientFamilyTrackerScreen extends StatefulWidget {
 class _PatientFamilyTrackerScreenState extends State<PatientFamilyTrackerScreen> {
   Future<DocumentSnapshot> getFatherDocument(patient) async {
     // Fetch the document of the patient's father
-    DocumentSnapshot document = await FirebaseFirestore.instance.collection('patients') .doc(patient['father']) .get();
+    DocumentSnapshot document = await FirebaseFirestore.instance.collection('patients')  .doc(patient['father']) .get();
     return document;
   }
   Future<DocumentSnapshot> getMotherDocument(patient) async {
@@ -69,6 +68,7 @@ class _PatientFamilyTrackerScreenState extends State<PatientFamilyTrackerScreen>
       return SizedBox.shrink();  // Show nothing 
     } else {
       return Card(
+        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16), // Adjust the margin as needed
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Column(

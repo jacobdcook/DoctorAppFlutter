@@ -1,65 +1,79 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctorapp/screens/patientInfo/addDiagnosis.dart';
 import 'package:flutter/material.dart';
 
-class MedicalDiagnosisScreen extends StatefulWidget {
-  const MedicalDiagnosisScreen({Key? key}) : super(key: key);
-
-  @override
-  _MedicalDiagnosisScreenState createState() => _MedicalDiagnosisScreenState();
-}
-
-class _MedicalDiagnosisScreenState extends State<MedicalDiagnosisScreen> {
-  List<Map<String, dynamic>> diagnosis = [
-    {
-      'title': 'Asthma',
-      'date': '2021-03-10',
-      'details': 'Diagnosed with mild asthma. Prescribed inhaler.',
-    },
-    {
-      'title': 'Gastritis',
-      'date': '2022-11-25',
-      'details':
-          'Suffered from severe gastritis. Prescribed medication and diet plan.',
-    },
-    // Add more diagnosis entries here
-  ];
+class MedicalDiagnosisScreen extends StatelessWidget {
+  final Map<String, dynamic>? patient;  // Holds the selected patient
+  const MedicalDiagnosisScreen({Key? key, required this.patient}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Medical Diagnosis'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person_add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddDiagnosisScreen(patient: patient)),
+              );
+            },
+          ),
+        ],
       ),
-      body: ListView.builder(
-        itemCount: diagnosis.length,
-        itemBuilder: (context, index) {
-          final entry = diagnosis[index];
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    entry['title']!,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Date: ${entry['date']}',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Details: ${entry['details']}',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
+      body: Column (
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          listOfDiagnoses(),
+        ],
+      )
+    );
+  }
+
+  Widget listOfDiagnoses() {
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('patients').doc("${patient?['fName']}${patient?['mName']}${patient?['lName']}").collection('medicalDiagnosis').snapshots(),
+        builder: (context, subcollectionSnapshot) {
+          if (subcollectionSnapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (subcollectionSnapshot.hasError) {
+            return Center(
+              child: Text('Error: ${subcollectionSnapshot.error}'),
+            );
+          }
+          if (!subcollectionSnapshot.hasData || subcollectionSnapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text('No previous diagnoses'),
+            );
+          }
+
+          return ListView.builder(
+            itemCount: subcollectionSnapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              var documentData = subcollectionSnapshot.data!.docs[index].data();
+              // Display document data from the subcollection
+              return Card(
+                elevation: 2, // Adjust the elevation as needed
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16), // Adjust the margin as needed
+                child: ListTile(
+                  title: Text("${(documentData as Map<String, dynamic>)['title']} - ${(documentData as Map<String, dynamic>)['date']}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                  subtitle: Text( (documentData as Map<String, dynamic>)['details'] ?? '', style: TextStyle(fontSize: 16,),),
+                ),
+              );
+            },
           );
+
         },
       ),
     );
   }
+
 }
+

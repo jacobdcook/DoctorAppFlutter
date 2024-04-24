@@ -22,10 +22,6 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
   final _emailController = TextEditingController();           // Email
   final _eCNameController = TextEditingController();          // Emergency contact name
   final _eCPhoneController = TextEditingController();         // Emergency contact phone number
-  // final _motherController = TextEditingController();
-  // final _fatherController = TextEditingController();
-  // final _spouseController = TextEditingController();
-  // final _childController = TextEditingController();
 
   @override
   void dispose() {
@@ -42,10 +38,6 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
     _emailController.dispose();
     _eCNameController.dispose();
     _eCPhoneController.dispose();
-    // _motherController.dispose();
-    // _fatherController.dispose();
-    // _spouseController.dispose();
-    // _childController.dispose();
     super.dispose();
   }
 
@@ -53,7 +45,13 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         // Store the patient data in Firestore
-        await FirebaseFirestore.instance.collection('patients').doc("${_fNameController.text}${_mNameController.text}${_lNameController.text}").set({
+        // Reference to the patients collection on Firestore
+        CollectionReference patientsCollection = FirebaseFirestore.instance.collection("patients");  
+
+        // Create new document
+        DocumentReference patientDocumentReference = patientsCollection.doc("${_fNameController.text}${_mNameController.text}${_lNameController.text}");
+        // Add all the patient information to Firestore
+        await patientDocumentReference.set({
           'fName': _fNameController.text,
           'mName': _mNameController.text,
           'lName': _lNameController.text,
@@ -73,7 +71,7 @@ class _PatientRegistrationScreenState extends State<PatientRegistrationScreen> {
           'child': "",
           'medicalHistory': "",
         });
-
+        
         // Navigate back or show a success message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

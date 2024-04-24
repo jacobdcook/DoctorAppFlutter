@@ -48,7 +48,7 @@ class _AddRelationScreenState extends State<AddRelationScreen> {
               if (_spouseController.text == docSnapshot.id || _spouseController.text == "") {
                 isSpouseValid = true;
               }
-              if (_childController.text == docSnapshot.id || _childController == "") {
+              if (_childController.text == docSnapshot.id || _childController.text == "") {
                 isChildValid = true;
               }
             }
