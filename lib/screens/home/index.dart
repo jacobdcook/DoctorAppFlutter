@@ -11,6 +11,7 @@ import 'package:doctorapp/screens/patientInfo/medicalDiagnosis.dart';
 import 'package:doctorapp/screens/patientInfo/labTests.dart';
 import 'package:doctorapp/screens/patientInfo/prescriptionTracker.dart';
 import 'package:doctorapp/screens/patientInfo/searchFamilyTracker.dart';
+import 'package:doctorapp/screens/patientInfo/searchLabTests.dart';
 import 'package:doctorapp/screens/patientInfo/searchMedicalDiagnosis.dart';
 import 'package:doctorapp/screens/patients/patients_screen.dart';
 import 'package:doctorapp/screens/profile/index.dart';
@@ -301,7 +302,7 @@ class _HomeState extends State<Home> {
                           'Medical Diagnosis') {
                         Get.to(() => SearchMedicalDiagnosisScreen());
                       } else if (category[index]['name'] == 'Lab Tests') {
-                        Get.to(() => LabTestsScreen());
+                        Get.to(() => SearchLabTestsScreen());
                       } else if (category[index]['name'] == 'Prescriptions') {
                         Get.to(() => PrescriptionTrackerScreen());
                       } else {

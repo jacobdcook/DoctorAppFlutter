@@ -1,58 +1,58 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AddDiagnosisScreen extends StatefulWidget {
+class AddLabTestScreen extends StatefulWidget {
   final Map<String, dynamic>? patient;
 
-  const AddDiagnosisScreen({Key? key, required this.patient}) : super(key: key);
+  const AddLabTestScreen({Key? key, required this.patient}) : super(key: key);
 
   @override
-  _AddDiagnosisScreenState createState() => _AddDiagnosisScreenState();
+  _AddLabTestScreenState createState() => _AddLabTestScreenState();
 }
 
-class _AddDiagnosisScreenState extends State<AddDiagnosisScreen> {
+class _AddLabTestScreenState extends State<AddLabTestScreen> {
   final _formKey = GlobalKey<FormState>();                          
   final _titleController = TextEditingController();         
   final _dateController = TextEditingController();           
-  final _detailsController = TextEditingController();           
+  final _resultController = TextEditingController();           
 
   @override
   void dispose() {
     _titleController.dispose();
     _dateController.dispose();
-    _detailsController.dispose();
+    _resultController.dispose();
     super.dispose();
   }
 
-  Future<void> _addDiagnosis() async {
+  Future<void> _addLabTest() async {
     if (_formKey.currentState!.validate()) {
       try {
-        // All boxes must be filled to successfully add a diagnosis
-        if (_titleController.text == "" || _dateController.text == "" || _detailsController == "") {
+        // All boxes need to be filled to successfully add a lab test result
+        if (_titleController.text == "" || _dateController.text == "" || _resultController.text == "") {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Please fill in all areas'),
             ),
           );
         } else {
-          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").collection('medicalDiagnosis').add({
+          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").collection('labTests').add({
             'title': _titleController.text,
             'date': _dateController.text,
-            'details': _detailsController.text,
+            'details': _resultController.text,
           });
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Lab test added successfully'),
+            ),
+          );
         }
-        
-        // Navigate back or show a success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Diagnosis added successfully'),
-          ),
-        );
+          
       } catch (e) {
         // Handle any errors that occurred during registration
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to add diagnosis'),
+            content: Text('Failed to add lab test'),
           ),
         );
       }
@@ -63,7 +63,7 @@ class _AddDiagnosisScreenState extends State<AddDiagnosisScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Diagnosis to ${widget.patient?['fName']} ${widget.patient?['lName']}'),
+        title: Text('Add Lab Test Result'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -80,14 +80,14 @@ class _AddDiagnosisScreenState extends State<AddDiagnosisScreen> {
                 decoration: InputDecoration(labelText: 'Date', labelStyle: TextStyle(fontSize: 14)),
               ),
               TextFormField(
-                controller: _detailsController,
-                decoration: InputDecoration(labelText: 'Details', labelStyle: TextStyle(fontSize: 14), alignLabelWithHint: true),
+                controller: _resultController,
+                decoration: InputDecoration(labelText: 'Result', labelStyle: TextStyle(fontSize: 14), alignLabelWithHint: true),
                 maxLines: 5,
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: _addDiagnosis,
-                child: Text('Add Diagnosis'),
+                onPressed: _addLabTest,
+                child: Text('Add LabTest'),
               ),
             ],
           ),

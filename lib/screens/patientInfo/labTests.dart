@@ -1,64 +1,79 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctorapp/screens/patientInfo/addLabTest.dart';
 import 'package:flutter/material.dart';
 
-class LabTestsScreen extends StatefulWidget {
-  const LabTestsScreen({Key? key}) : super(key: key);
-
-  @override
-  _LabTestsScreenState createState() => _LabTestsScreenState();
-}
-
-class _LabTestsScreenState extends State<LabTestsScreen> {
-  List<Map<String, dynamic>> labTests = [
-    {
-      'title': 'Blood Test',
-      'date': '2023-04-01',
-      'results': 'Normal',
-    },
-    {
-      'title': 'X-Ray (Chest)',
-      'date': '2022-09-15',
-      'results': 'No abnormalities detected',
-    },
-    // Add more lab test entries here
-  ];
+class LabTestsScreen extends StatelessWidget {
+  final Map<String, dynamic>? patient;  // Holds the selected patient
+  const LabTestsScreen({Key? key, required this.patient}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lab Tests'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person_add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AddLabTestScreen(patient: patient)),
+              );
+            },
+          ),
+        ],
       ),
-      body: ListView.builder(
-        itemCount: labTests.length,
-        itemBuilder: (context, index) {
-          final test = labTests[index];
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    test['title']!,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Date: ${test['date']}',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Results: ${test['results']}',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
+      body: Column (
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          listOfDiagnoses(),
+        ],
+      )
+    );
+  }
+
+  Widget listOfDiagnoses() {
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('patients').doc("${patient?['fName']}${patient?['mName']}${patient?['lName']}").collection('labTests').snapshots(),
+        builder: (context, subcollectionSnapshot) {
+          if (subcollectionSnapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (subcollectionSnapshot.hasError) {
+            return Center(
+              child: Text('Error: ${subcollectionSnapshot.error}'),
+            );
+          }
+          if (!subcollectionSnapshot.hasData || subcollectionSnapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text('No previous lab test results'),
+            );
+          }
+
+          return ListView.builder(
+            itemCount: subcollectionSnapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              var documentData = subcollectionSnapshot.data!.docs[index].data();
+              // Display document data from the subcollection
+              return Card(
+                elevation: 2, // Adjust the elevation as needed
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16), // Adjust the margin as needed
+                child: ListTile(
+                  title: Text("${(documentData as Map<String, dynamic>)['title']} - ${(documentData as Map<String, dynamic>)['date']}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                  subtitle: Text( (documentData as Map<String, dynamic>)['details'] ?? '', style: TextStyle(fontSize: 16,),),
+                ),
+              );
+            },
           );
+
         },
       ),
     );
   }
+
 }
+
