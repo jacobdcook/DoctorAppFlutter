@@ -100,6 +100,10 @@ class _PatientFamilyTrackerScreenState extends State<PatientFamilyTrackerScreen>
                   // Extract the desired field from the document snapshot
                   var data = snapshot.data!.data() as Map<String, dynamic>;
                   String fieldValue = data['medicalHistory']; 
+                  if (fieldValue == "") {
+                    fieldValue = "N/A";
+                  }
+                  
                   
                   // Display the field value within a card in a column
                   return Column(
@@ -157,6 +161,10 @@ class _PatientFamilyTrackerScreenState extends State<PatientFamilyTrackerScreen>
                   // Extract the desired field from the document snapshot
                   var data = snapshot.data!.data() as Map<String, dynamic>;
                   String fieldValue = data['medicalHistory']; 
+                  if (fieldValue == "") {
+                    fieldValue = "N/A";
+                  }
+                  
                   
                   // Display the field value within a card in a column
                   return Column(
@@ -214,6 +222,10 @@ class _PatientFamilyTrackerScreenState extends State<PatientFamilyTrackerScreen>
                   // Extract the desired field from the document snapshot
                   var data = snapshot.data!.data() as Map<String, dynamic>;
                   String fieldValue = data['medicalHistory']; 
+                  if (fieldValue == "") {
+                    fieldValue = "N/A";
+                  }
+                  
                   
                   // Display the field value within a card in a column
                   return Column(
@@ -271,6 +283,9 @@ class _PatientFamilyTrackerScreenState extends State<PatientFamilyTrackerScreen>
                   // Extract the desired field from the document snapshot
                   var data = snapshot.data!.data() as Map<String, dynamic>;
                   String fieldValue = data['medicalHistory']; 
+                  if (fieldValue == "") {
+                    fieldValue = "N/A";
+                  }
                   
                   // Display the field value within a card in a column
                   return Column(

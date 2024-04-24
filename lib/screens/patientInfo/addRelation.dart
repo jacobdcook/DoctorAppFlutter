@@ -15,8 +15,13 @@ class _AddRelationScreenState extends State<AddRelationScreen> {
   final _motherController = TextEditingController();         
   final _fatherController = TextEditingController();           
   final _spouseController = TextEditingController();           
-  final _childController = TextEditingController();            
-  bool isValid = true;  // Is the entered person a patient in the database
+  final _childController = TextEditingController();    
+
+  // Is the entered person a patient in the database        
+  bool isMotherValid = false;  
+  bool isFatherValid = false;  
+  bool isSpouseValid = false;  
+  bool isChildValid = false;  
 
   @override
   void dispose() {
@@ -30,22 +35,21 @@ class _AddRelationScreenState extends State<AddRelationScreen> {
   Future<void> _addRelation() async {
     if (_formKey.currentState!.validate()) {
       try {
-        // Get all patient docs
+        // Get all patient docs, this is to ensure the relation being made is between two patients in the database
         FirebaseFirestore.instance.collection("patients").get().then(
           (querySnapshot) {
-            print("Successfully completedYAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             for (var docSnapshot in querySnapshot.docs) {
-              if (_motherController.text != docSnapshot.id || _motherController.text == "") {
-                isValid = false;
+              if (_motherController.text == docSnapshot.id || _motherController.text == "") {
+                isMotherValid = true;
               }
-              if (_fatherController.text != docSnapshot.id || _motherController.text == "") {
-                isValid = false;
+              if (_fatherController.text == docSnapshot.id || _fatherController.text == "") {
+                isFatherValid = true;
               }
-              if (_spouseController.text != docSnapshot.id || _motherController.text == "") {
-                isValid = false;
+              if (_spouseController.text == docSnapshot.id || _spouseController.text == "") {
+                isSpouseValid = true;
               }
-              if (_childController.text != docSnapshot.id || _motherController.text == "") {
-                isValid = false;
+              if (_childController.text == docSnapshot.id || _childController == "") {
+                isChildValid = true;
               }
             }
 
@@ -53,12 +57,26 @@ class _AddRelationScreenState extends State<AddRelationScreen> {
           onError: (e) => print("Error completing: $e"),
         );
         
-        await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").update({
-          'mother': _motherController.text,
-          'father': _fatherController.text,
-          'spouse': _spouseController.text,
-          'child': _childController.text,
-        });
+        if (_motherController.text != "" && isMotherValid) {
+          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").update({
+            'mother': _motherController.text,
+          });
+        }
+        if (_fatherController.text != "" && isFatherValid) {
+          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").update({
+            'father': _fatherController.text,
+          });
+        }
+        if (_spouseController.text != "" && isSpouseValid) {
+          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").update({
+            'spouse': _spouseController.text,
+          });
+        }
+        if (_childController.text != "" && isChildValid) {
+          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").update({
+            'child': _childController.text,
+          });
+        }
 
         // Navigate back or show a success message
         ScaffoldMessenger.of(context).showSnackBar(
@@ -96,7 +114,7 @@ class _AddRelationScreenState extends State<AddRelationScreen> {
               ),
               TextFormField(
                 controller: _fatherController,
-                decoration: InputDecoration(labelText: 'father', labelStyle: TextStyle(fontSize: 14)),
+                decoration: InputDecoration(labelText: 'Father', labelStyle: TextStyle(fontSize: 14)),
               ),
               TextFormField(
                 controller: _spouseController,
