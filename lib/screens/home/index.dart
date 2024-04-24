@@ -10,6 +10,7 @@ import 'package:doctorapp/screens/patientInfo/patientFamilyTracker.dart';
 import 'package:doctorapp/screens/patientInfo/medicalDiagnosis.dart';
 import 'package:doctorapp/screens/patientInfo/labTests.dart';
 import 'package:doctorapp/screens/patientInfo/prescriptionTracker.dart';
+import 'package:doctorapp/screens/patientInfo/searchFamilyTracker.dart';
 import 'package:doctorapp/screens/patients/patients_screen.dart';
 import 'package:doctorapp/screens/profile/index.dart';
 import 'package:doctorapp/screens/signUp/patientRegistration.dart';
@@ -294,7 +295,7 @@ class _HomeState extends State<Home> {
                           'Patient Health History') {
                         Get.to(() => PatientHealthHistoryScreen());
                       } else if (category[index]['name'] == 'Family Tracker') {
-                        Get.to(() => PatientFamilyTrackerScreen());
+                        Get.to(() => SearchFamilyTrackerScreen());
                       } else if (category[index]['name'] ==
                           'Medical Diagnosis') {
                         Get.to(() => MedicalDiagnosisScreen());

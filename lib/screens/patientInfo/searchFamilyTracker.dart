@@ -1,33 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctorapp/screens/patientInfo/patientFamilyTracker.dart';
 import 'package:flutter/material.dart';
-import 'package:doctorapp/screens/patients/patient_details_screen.dart';
-import 'package:doctorapp/screens/signUp/patientRegistration.dart';
+import 'package:doctorapp/screens/patientInfo/addRelation.dart';
 
-class PatientsScreen extends StatefulWidget {
+class SearchFamilyTrackerScreen extends StatefulWidget {
+  const SearchFamilyTrackerScreen({Key? key}) : super(key: key);
+
   @override
-  _PatientsScreenState createState() => _PatientsScreenState();
+  _SearchFamilyTrackerScreenState createState() =>
+      _SearchFamilyTrackerScreenState();
 }
 
-class _PatientsScreenState extends State<PatientsScreen> {
+class _SearchFamilyTrackerScreenState extends State<SearchFamilyTrackerScreen> {
   String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Patients'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.person_add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PatientRegistrationScreen()),
-              );
-            },
-          ),
-        ],
+        title: Text('Family Tracker'),
       ),
       body: Column(
         children: [
@@ -68,7 +59,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  PatientDetailsScreen(patient: patient),
+                                PatientFamilyTrackerScreen(patient: patient),
                             ),
                           );
                         },
@@ -107,7 +98,7 @@ class _PatientsScreenState extends State<PatientsScreen> {
               },
             ),
           ),
-        ],
+        ]
       ),
     );
   }
