@@ -96,13 +96,13 @@ class _MyTextFieldState extends State<MyTextField> {
                 fontWeight: FontWeight.w400,
                 fontSize: 14,height: 1.7),
           ),
-          onTap: () => widget.onTap!(),
+          onTap: () => widget.onTap?.call(),
           onSubmitted: (text) => widget.nextFocus != null
               ? FocusScope.of(context).requestFocus(widget.nextFocus)
               : (widget.onSubmit != null)
               ? widget.onSubmit!(text)
               : null,
-          onChanged: widget.onChanged!,
+          onChanged: widget.onChanged?.call,
         ),
       ),
     );

@@ -19,6 +19,9 @@ dependencies:
   firebase_auth: ^4.0.1
   get_storage: ^2.1.1
   flutter_translate: 3.1.0
+  intl: ^0.19.0
+  timezone: ^0.8.0
+  flutter_native_timezone: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -12,11 +12,9 @@ class ScheduleDateTimeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-
       appBar: AppBar(
         title: Text('Book Appointment'),
         centerTitle: true,
-
         automaticallyImplyLeading: true,
       ),
       body: SafeArea(
@@ -45,7 +43,7 @@ class ScheduleDateTimeScreen extends StatelessWidget {
                       width: 100,
                       height: 100,
                       initialSelectedDate: DateTime.now(),
-                      selectionColor:  ColorssA.primaryColor,
+                      selectionColor: ColorssA.primaryColor,
                       dateTextStyle: poppinsBold.copyWith(
                           fontSize: Dimensions.fontSizeExtraLarge20),
                       dayTextStyle: poppinsBold.copyWith(
@@ -55,44 +53,9 @@ class ScheduleDateTimeScreen extends StatelessWidget {
                           letterSpacing: 1.5,
                           fontSize: Dimensions.fontSizeSmall),
                       selectedTextColor: Colors.white,
-                      onDateChange: (date) {
-                        // New date selected
-                        // setState(() {
-                        //   _selectedValue = date;
-                        // });
-                      },
+                      onDateChange: (date) {},
                     ),
                   ),
-                  // Positioned(
-                  //   // top:  20,
-                  //   bottom: 90,
-                  //   left: 30,
-                  //   child: Row(
-                  //     children: [
-                  //       Container(
-                  //         margin: EdgeInsets.only(bottom: 20),
-                  //         width: 8,
-                  //         height: 25,
-                  //         decoration: BoxDecoration(
-                  //             color: Theme.of(context).colorScheme.background,
-                  //             border: Border.all(
-                  //                 color: Theme.of(context).primaryColor)),
-                  //       ),
-                  //       SizedBox(
-                  //         width: 70,
-                  //       ),
-                  //       Container(
-                  //         margin: EdgeInsets.only(bottom: 20),
-                  //         width: 8,
-                  //         height: 25,
-                  //         decoration: BoxDecoration(
-                  //             color: Theme.of(context).colorScheme.background,
-                  //             border: Border.all(
-                  //                 color: Theme.of(context).primaryColor)),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // )
                 ],
               ),
               // scheduleTimeCalenderWidget(context),
@@ -122,18 +85,20 @@ class ScheduleDateTimeScreen extends StatelessWidget {
                       // comonController.getPickedTime(index);
                     });
                   }),
-              SizedBox(height: 50,),
+              SizedBox(
+                height: 50,
+              ),
               InkWell(
-                onTap: (){
-                 Get.back();
-                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                   content: Text('Booed Succefully',
-                       style: TextStyle(color: Colors.white)),
-                   behavior: SnackBarBehavior.floating,
-                   backgroundColor: Colors.green,
-                   duration: Duration(seconds: 2),
-                   margin: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                 ));
+                onTap: () {
+                  Get.back();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Booed Succefully',
+                        style: TextStyle(color: Colors.white)),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.green,
+                    duration: Duration(seconds: 2),
+                    margin: EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                  ));
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
@@ -142,7 +107,12 @@ class ScheduleDateTimeScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: ColorssA.primaryColor,
                       borderRadius: BorderRadius.circular(10)),
-                  child: Center(child: Text('Book An Appointment',style: TextStyle(color: Colors.white),),),
+                  child: Center(
+                    child: Text(
+                      'Book An Appointment',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               )
             ],
@@ -152,24 +122,22 @@ class ScheduleDateTimeScreen extends StatelessWidget {
     );
   }
 }
-Widget pickTimeWidget(BuildContext context, int index,
-   VoidCallback onTap) {
+
+Widget pickTimeWidget(BuildContext context, int index, VoidCallback onTap) {
   return InkWell(
     onTap: onTap,
     child: Container(
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color:Theme.of(context).colorScheme.background,
-        border: Border.all(
-            color: Colors.transparent,
-            width: 2),
+        color: Theme.of(context).colorScheme.background,
+        border: Border.all(color: Colors.transparent, width: 2),
         boxShadow: [
           BoxShadow(
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(0, 6),
-              color:  Colors.black26.withOpacity(0.15))
+              color: Colors.black26.withOpacity(0.15))
         ],
       ),
       child: Row(
