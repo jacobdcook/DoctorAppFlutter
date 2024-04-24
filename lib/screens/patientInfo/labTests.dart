@@ -27,6 +27,12 @@ class LabTestsScreen extends StatelessWidget {
       body: Column (
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: EdgeInsets.only(left: 16),
+            child: Text("${patient?['fName']} ${patient?['mName']} ${patient?['lName']}",
+              style: TextStyle( fontSize: 24, fontWeight: FontWeight.bold ),
+            ),
+          ),
           listOfDiagnoses(),
         ],
       )

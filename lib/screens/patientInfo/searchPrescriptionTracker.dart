@@ -1,24 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doctorapp/screens/patientInfo/labTests.dart';
+import 'package:doctorapp/screens/patientInfo/prescriptionTracker.dart';
 import 'package:flutter/material.dart';
 
-// From this screen, the user will click on a patient's name and be takin to labTests.dart
+// From this screen, the user will click on a patient's name and be takin to prescriptionTracker.dart
 
-class SearchLabTestsScreen extends StatefulWidget {
-  const SearchLabTestsScreen({Key? key}) : super(key: key);
+class SearchPrescriptionTrackerScreen extends StatefulWidget {
+  const SearchPrescriptionTrackerScreen({Key? key}) : super(key: key);
 
   @override
-  _SearchLabTestsScreenState createState() =>_SearchLabTestsScreenState();
+  _SearchPrescriptionTrackerScreenState createState() =>_SearchPrescriptionTrackerScreenState();
 }
 
-class _SearchLabTestsScreenState extends State<SearchLabTestsScreen> {
+class _SearchPrescriptionTrackerScreenState extends State<SearchPrescriptionTrackerScreen> {
   String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lab Tests'),
+        title: Text('Prescription Tracker'),
       ),
       body: Column(
         children: [
@@ -59,7 +59,7 @@ class _SearchLabTestsScreenState extends State<SearchLabTestsScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                LabTestsScreen(patient: patient),
+                                PrescriptionTrackerScreen(patient: patient),
                             ),
                           );
                         },

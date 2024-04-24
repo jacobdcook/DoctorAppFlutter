@@ -87,7 +87,7 @@ class _AddLabTestScreenState extends State<AddLabTestScreen> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _addLabTest,
-                child: Text('Add LabTest'),
+                child: Text('Add Lab Test'),
               ),
             ],
           ),

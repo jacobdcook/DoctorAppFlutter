@@ -10,6 +10,7 @@ import 'package:doctorapp/screens/patientInfo/patientFamilyTracker.dart';
 import 'package:doctorapp/screens/patientInfo/medicalDiagnosis.dart';
 import 'package:doctorapp/screens/patientInfo/labTests.dart';
 import 'package:doctorapp/screens/patientInfo/prescriptionTracker.dart';
+import 'package:doctorapp/screens/patientInfo/searchPrescriptionTracker.dart';
 import 'package:doctorapp/screens/patientInfo/searchFamilyTracker.dart';
 import 'package:doctorapp/screens/patientInfo/searchLabTests.dart';
 import 'package:doctorapp/screens/patientInfo/searchMedicalDiagnosis.dart';
@@ -304,7 +305,7 @@ class _HomeState extends State<Home> {
                       } else if (category[index]['name'] == 'Lab Tests') {
                         Get.to(() => SearchLabTestsScreen());
                       } else if (category[index]['name'] == 'Prescriptions') {
-                        Get.to(() => PrescriptionTrackerScreen());
+                        Get.to(() => SearchPrescriptionTrackerScreen());
                       } else {
                         Get.to(FormPage());
                       }

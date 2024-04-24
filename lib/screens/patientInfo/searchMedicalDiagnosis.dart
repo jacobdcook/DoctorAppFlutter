@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctorapp/screens/patientInfo/medicalDiagnosis.dart';
 import 'package:flutter/material.dart';
 
+// From this screen, the user will click on a patient's name and be takin to medicalDiagnosis.dart
+
 class SearchMedicalDiagnosisScreen extends StatefulWidget {
   const SearchMedicalDiagnosisScreen({Key? key}) : super(key: key);
 
@@ -50,7 +52,7 @@ class _SearchMedicalDiagnosisScreenState extends State<SearchMedicalDiagnosisScr
                     itemBuilder: (context, index) {
                       final patient = filteredPatients[index].data()
                           as Map<String, dynamic>?;
-                      final patientName = patient?['fName'] ?? '';
+                      final patientName = "${patient?['fName']} ${patient?['mName']} ${patient?['lName']}";
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(

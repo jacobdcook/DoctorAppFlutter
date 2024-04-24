@@ -54,6 +54,13 @@ class _PatientFamilyTrackerScreenState extends State<PatientFamilyTrackerScreen>
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: EdgeInsets.only(left: 16),
+            child: Text("${widget.patient?['fName']} ${widget.patient?['mName']} ${widget.patient?['lName']}",
+              style: TextStyle( fontSize: 24, fontWeight: FontWeight.bold ),
+            ),
+          ),
+          SizedBox(height: 16,),
           fatherCard(),
           motherCard(),
           spouseCard(),
