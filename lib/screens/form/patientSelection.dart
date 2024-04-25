@@ -40,9 +40,8 @@ class _PatientsScreenState extends State<PatientSelectionScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final patients = snapshot.data!.docs;
-
                   final filteredPatients = patients.where((patient) {
-                    final patientName = patient['name']?.toLowerCase() ?? '';
+                    final patientName = patient['fName']?.toLowerCase() ?? '';
                     return patientName.contains(_searchQuery.toLowerCase());
                   }).toList();
                   return ListView.builder(
@@ -50,7 +49,7 @@ class _PatientsScreenState extends State<PatientSelectionScreen> {
                     itemBuilder: (context, index) {
                       final patient = filteredPatients[index].data()
                           as Map<String, dynamic>?;
-                      final patientName = patient?['name'] ?? '';
+                      final patientName = patient?['fName'] ?? '';
                       return GestureDetector(
                         onTap: () {
                           final selectedPatientID = filteredPatients[index].id;
@@ -74,7 +73,7 @@ class _PatientsScreenState extends State<PatientSelectionScreen> {
                           ),
                           child: Text(
                             patientName,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -86,7 +85,7 @@ class _PatientsScreenState extends State<PatientSelectionScreen> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator());
                 }
               },
             ),

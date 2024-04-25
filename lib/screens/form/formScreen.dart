@@ -306,17 +306,20 @@ class _FormPageState extends State<FormPage> {
     if (!context.mounted) return;
 
     // get doc of selected patient
-    DocumentReference patientRef = db.collection("patients").doc(result);
+    DocumentReference patientRef;
+    if (result != null) {
+      patientRef = db.collection("patients").doc(result);
+      patientRef.get().then(
+        (DocumentSnapshot doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          // update label to selected patient's first and last name
+          patientInput.text = data['name'];
+        },
+        onError: (e) => print("Error getting document: $e"),
+      );
+      appointment.patientRef = patientRef;
+    }
     // get first and last name of selected patient
-    patientRef.get().then(
-      (DocumentSnapshot doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        // update label to selected patient's first and last name
-        patientInput.text = data['name'];
-      },
-      onError: (e) => print("Error getting document: $e"),
-    );
-    appointment.patientRef = patientRef;
   }
 }
 
