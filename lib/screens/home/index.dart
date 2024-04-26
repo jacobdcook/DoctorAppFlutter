@@ -149,18 +149,6 @@ class _HomeState extends State<Home> {
                 },
               ),
               ListTile(
-                title: const Text('Patient Information'),
-                onTap: () {
-                  Get.to(GeneralPatientInformationScreen());
-                },
-              ),
-              ListTile(
-                title: const Text('Profile'),
-                onTap: () {
-                  Get.to(Profile());
-                },
-              ),
-              ListTile(
                 title: const Text('Educational Resources'),
                 onTap: () {
                   Get.to(() => EducationalResourcesScreen());
