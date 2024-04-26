@@ -48,13 +48,12 @@ class BookingList extends StatelessWidget {
           .update({
         'service': serviceName,
         'schedule': Timestamp.fromDate(scheduledDate),
-        'patient_name':
-            patientName // Ensure this matches the field name in Firestore
+        'patient_name': patientName
       });
 
-      print('Appointment updated successfully'); // Debug print
+      print('Appointment updated successfully');
     } catch (e) {
-      print('Failed to update appointment: $e'); // Print any errors
+      print('Failed to update appointment: $e');
     }
   }
 
@@ -139,12 +138,8 @@ class BookingList extends StatelessWidget {
             TextButton(
               child: const Text('Save'),
               onPressed: () {
-                updateAppointment(
-                    documentId,
-                    serviceController.text,
-                    dateController.text,
-                    timeController.text,
-                    ''); // This call now passes an empty string for patient's name
+                updateAppointment(documentId, serviceController.text,
+                    dateController.text, timeController.text, '');
                 Navigator.of(dialogContext).pop();
               },
             ),
@@ -168,6 +163,7 @@ class BookingList extends StatelessWidget {
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('appointments')
+                .orderBy('schedule')
                 .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
