@@ -1,0 +1,183 @@
+[33mcommit f8b766b62f036aa3b8002fe9f56114a3231fb92f[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Mon May 13 22:53:19 2024 -0700
+
+    Added a few optimizations to two screens.
+
+[33mcommit b471a7804e08cea954320dc899da8c5e09b8084f[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Thu May 9 07:12:10 2024 -0700
+
+    Pushing company logo before the presentation.
+
+[33mcommit 354232a9a47fc88a3c06134849653d4768205b49[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Thu Apr 25 17:20:49 2024 -0700
+
+    Sorted the booking list by date.
+
+[33mcommit 1e45116c3c179654df8c105367b4194f8b341b1c[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Thu Apr 25 17:14:36 2024 -0700
+
+    Removed two unecessary pages.
+
+[33mcommit f193483ad072ae9b824a125c4af6916aa3383e2a[m
+Author: Christopher Chafin <chafin.chris.97@gmail.com>
+Date:   Wed Apr 24 18:33:00 2024 -0700
+
+    fix patient list not loading for booking appointment.
+    fix app crashing when backing out of list without selecting name
+
+[33mcommit e195eadf3380b7c7ed19b4c86ae692900487a815[m
+Author: Rachman Mappanganro <rachmanmapp@gmail.com>
+Date:   Wed Apr 24 02:38:14 2024 -0700
+
+    [4/24 2:37AM]
+    
+    - updated all the stuff I j did rn
+    - prescription tracking is done, can view and add
+
+[33mcommit e7e126d37bd241d42fd4457b4cd9d7c2bc70dbb1[m
+Author: Rachman Mappanganro <rachmanmapp@gmail.com>
+Date:   Wed Apr 24 01:42:11 2024 -0700
+
+    [4/24 1:14AM]
+    
+    - updated addDiagnosis
+    - LabTests is all done. can view and add
+
+[33mcommit 321ae6b4f013691c67884dde0c933eb0742e3ce6[m
+Author: Rachman Mappanganro <rachmanmapp@gmail.com>
+Date:   Wed Apr 24 01:14:51 2024 -0700
+
+    [4/24 1:13AM]
+    
+    - Family Tracker is better now
+    - Medical Diagnosis is done. can view and add
+
+[33mcommit b36724392b994d1048349b8cf9eda1d34ec766b2[m
+Author: Rachman Mappanganro <rachmanmapp@gmail.com>
+Date:   Tue Apr 23 21:55:06 2024 -0700
+
+    [4/23 9:53]
+    
+    Family Tracker - Now, to add a relation to a patient, they other person must also be a patient in the database
+
+[33mcommit 9d634b93ecf283ada690ce5caddb63557bbbfa1d[m
+Merge: 2cb8a4c 4eab8fb
+Author: Rachman Mappanganro <rachmanmapp@gmail.com>
+Date:   Tue Apr 23 20:48:02 2024 -0700
+
+    Merge branch 'main' of https://github.com/jacobdcook/DoctorAppFlutter
+
+[33mcommit 2cb8a4cb32a68f62e95d0f3d179a7da2b73802b5[m
+Author: Rachman Mappanganro <rachmanmapp@gmail.com>
+Date:   Tue Apr 23 20:47:57 2024 -0700
+
+    [4/23 8:46]
+    
+    - Added fields to patient docs on registration and info screen
+    - Family tracking, family relations can be added and shown. still workin on it
+
+[33mcommit 4eab8fb49080d885d95428bdb63058754a63aa4a[m
+Author: Christopher Chafin <chafin.chris.97@gmail.com>
+Date:   Sat Apr 20 22:47:34 2024 -0700
+
+    Implement creating appointment in the Book Appointment page and storing it in the firestore database
+
+[33mcommit 9866baa7fc6c7e5c4a61564f0317da56d9a8a2db[m
+Author: OniMirage01 <audavidson1@yahoo.com>
+Date:   Tue Apr 23 17:34:17 2024 -0700
+
+    Implemented book list to work for database
+
+[33mcommit 2984e294c8536b2b65a676ed98fa7d056bc27b04[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Fri Apr 19 17:26:55 2024 -0700
+
+    Fixed a spelling error.
+
+[33mcommit 0fd2818461c61c5796f3a38942458fb3d720ac6f[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Fri Apr 19 17:25:16 2024 -0700
+
+    Added patients to sidebar to view patients and their info.
+
+[33mcommit e271edffe83f78b80085d76096a6053ac0f67dcc[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Fri Apr 19 15:31:10 2024 -0700
+
+    Added basic registration feature.
+
+[33mcommit e15a3ea93c96b6f995cb7006cac706f5b472bc85[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Fri Apr 19 13:54:19 2024 -0700
+
+    Update BookingList screen with custom UI and dummy data
+
+[33mcommit 00513b1ce683da7f32bf1260619e7b4a7870d6e9[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Fri Apr 19 13:43:44 2024 -0700
+
+    Implement patient information screens and navigation
+
+[33mcommit 16e361d505ef55f73e2b7a3e96a5046ef9cd7511[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Fri Apr 19 13:32:45 2024 -0700
+
+    Added educational resources and tele medicine screen.
+
+[33mcommit 3f63a093fbadf953d272b21a2e3cac6f36ebbb14[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Fri Apr 19 11:48:24 2024 -0700
+
+    Added patient information into the sidebar. Changed spelling of one thing. Working on adding translation.
+
+[33mcommit fd0d11c67261a80c72dfefbc3c7709d962a3daa1[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Wed Apr 17 20:13:52 2024 -0700
+
+    Fixed login through database, it now prints name on home page when it logs in.
+
+[33mcommit 9dc089e7b7a7f9a8dd7be65c689451a3529829af[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Wed Apr 17 19:47:17 2024 -0700
+
+    Added firebase emulator via browser. Run 'firebase emulators:start' and it'll open 'http://127.0.0.1:4000/'
+
+[33mcommit b79c9b6f539fe8c44cbd104d2d83bb59431daa85[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Wed Apr 17 19:33:38 2024 -0700
+
+    Added login connection to FireBase.
+
+[33mcommit f408670bb969ed40bba8bbc78e157fc44572295b[m
+Author: jacobdcook <126007500+jacobdcook@users.noreply.github.com>
+Date:   Mon Apr 15 10:05:58 2024 -0700
+
+    Update README.md
+
+[33mcommit f437b94ee4981ba8d54290d91989260bb9b2fb0d[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Wed Apr 10 19:11:47 2024 -0700
+
+    Updated README.md
+
+[33mcommit 19eb585c6f3018b0c4c2c50839cb0a48ec3369c1[m
+Author: Rachman Mappanganro <rachmanmapp@gmail.com>
+Date:   Mon Apr 8 09:39:21 2024 -0700
+
+    +Firebase +Firestore
+
+[33mcommit d598fb82ee19b87dbec70dc2e51c2175cefdc865[m
+Author: jacobdcook <jacobcookofficial@gmail.com>
+Date:   Sun Apr 7 18:03:10 2024 -0700
+
+    Retain changes from commits
+
+[33mcommit de0c00dc96e557ec43e35ca308a15bc1256c8f0d[m
+Author: jacobdcook <126007500+jacobdcook@users.noreply.github.com>
+Date:   Sun Mar 24 16:31:33 2024 -0700
+
+    Initial commit
