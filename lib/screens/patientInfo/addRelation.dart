@@ -11,20 +11,24 @@ class AddRelationScreen extends StatefulWidget {
 }
 
 class _AddRelationScreenState extends State<AddRelationScreen> {
-  final _formKey = GlobalKey<FormState>();                          
-  final _motherController = TextEditingController();         
-  final _fatherController = TextEditingController();           
-  final _spouseController = TextEditingController();           
-  final _childController = TextEditingController();    
+  // Create a key to uniquely identify the form
+  final _formKey = GlobalKey<FormState>();
 
-  // Is the entered person a patient in the database        
-  bool isMotherValid = false;  
-  bool isFatherValid = false;  
-  bool isSpouseValid = false;  
-  bool isChildValid = false;  
+  // Initialize text editing controllers for each relation field
+  final _motherController = TextEditingController();
+  final _fatherController = TextEditingController();
+  final _spouseController = TextEditingController();
+  final _childController = TextEditingController();
+
+  // Flags to track the validity of each relation field
+  bool isMotherValid = false;
+  bool isFatherValid = false;
+  bool isSpouseValid = false;
+  bool isChildValid = false;
 
   @override
   void dispose() {
+    // Clean up the text editing controllers when the widget is disposed
     _motherController.dispose();
     _fatherController.dispose();
     _spouseController.dispose();
@@ -33,59 +37,23 @@ class _AddRelationScreenState extends State<AddRelationScreen> {
   }
 
   Future<void> _addRelation() async {
+    // Validate the form before attempting to add the relations
     if (_formKey.currentState!.validate()) {
       try {
-        // Get all patient docs, this is to ensure the relation being made is between two patients in the database
-        FirebaseFirestore.instance.collection("patients").get().then(
-          (querySnapshot) {
-            for (var docSnapshot in querySnapshot.docs) {
-              if (_motherController.text == docSnapshot.id || _motherController.text == "") {
-                isMotherValid = true;
-              }
-              if (_fatherController.text == docSnapshot.id || _fatherController.text == "") {
-                isFatherValid = true;
-              }
-              if (_spouseController.text == docSnapshot.id || _spouseController.text == "") {
-                isSpouseValid = true;
-              }
-              if (_childController.text == docSnapshot.id || _childController.text == "") {
-                isChildValid = true;
-              }
-            }
+        // Fetch all patient documents to ensure the relations are valid
+        await _validateRelations();
 
-          },
-          onError: (e) => print("Error completing: $e"),
-        );
-        
-        if (_motherController.text != "" && isMotherValid) {
-          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").update({
-            'mother': _motherController.text,
-          });
-        }
-        if (_fatherController.text != "" && isFatherValid) {
-          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").update({
-            'father': _fatherController.text,
-          });
-        }
-        if (_spouseController.text != "" && isSpouseValid) {
-          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").update({
-            'spouse': _spouseController.text,
-          });
-        }
-        if (_childController.text != "" && isChildValid) {
-          await FirebaseFirestore.instance.collection('patients').doc("${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}").update({
-            'child': _childController.text,
-          });
-        }
+        // Update the patient document with the new relations
+        await _updatePatientRelations();
 
-        // Navigate back or show a success message
+        // Show a success message to the user
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Relation added successfully'),
           ),
         );
       } catch (e) {
-        // Handle any errors that occurred during registration
+        // Handle any errors that occurred during the process
         print('Error adding relation: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -96,11 +64,66 @@ class _AddRelationScreenState extends State<AddRelationScreen> {
     }
   }
 
+  Future<void> _validateRelations() async {
+    // Fetch all patient documents from the database
+    final querySnapshot =
+        await FirebaseFirestore.instance.collection("patients").get();
+
+    // Iterate through the documents and check if the entered relations are valid
+    for (var docSnapshot in querySnapshot.docs) {
+      if (_motherController.text == docSnapshot.id ||
+          _motherController.text == "") {
+        isMotherValid = true;
+      }
+      if (_fatherController.text == docSnapshot.id ||
+          _fatherController.text == "") {
+        isFatherValid = true;
+      }
+      if (_spouseController.text == docSnapshot.id ||
+          _spouseController.text == "") {
+        isSpouseValid = true;
+      }
+      if (_childController.text == docSnapshot.id ||
+          _childController.text == "") {
+        isChildValid = true;
+      }
+    }
+  }
+
+  Future<void> _updatePatientRelations() async {
+    // Get the patient document reference
+    final patientRef = FirebaseFirestore.instance.collection('patients').doc(
+        "${widget.patient?['fName']}${widget.patient?['mName']}${widget.patient?['lName']}");
+
+    // Update the patient document with the new relations
+    if (_motherController.text != "" && isMotherValid) {
+      await patientRef.update({
+        'mother': _motherController.text,
+      });
+    }
+    if (_fatherController.text != "" && isFatherValid) {
+      await patientRef.update({
+        'father': _fatherController.text,
+      });
+    }
+    if (_spouseController.text != "" && isSpouseValid) {
+      await patientRef.update({
+        'spouse': _spouseController.text,
+      });
+    }
+    if (_childController.text != "" && isChildValid) {
+      await patientRef.update({
+        'child': _childController.text,
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Relation to ${widget.patient?['fName']} ${widget.patient?['lName']}'),
+        title: Text(
+            'Add Relation to ${widget.patient?['fName']} ${widget.patient?['lName']}'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -108,24 +131,32 @@ class _AddRelationScreenState extends State<AddRelationScreen> {
           key: _formKey,
           child: ListView(
             children: [
+              // Text form fields for each relation
               TextFormField(
                 controller: _motherController,
-                decoration: InputDecoration(labelText: 'Mother', labelStyle: TextStyle(fontSize: 14)),
+                decoration: InputDecoration(
+                    labelText: 'Mother', labelStyle: TextStyle(fontSize: 14)),
               ),
               TextFormField(
                 controller: _fatherController,
-                decoration: InputDecoration(labelText: 'Father', labelStyle: TextStyle(fontSize: 14)),
+                decoration: InputDecoration(
+                    labelText: 'Father', labelStyle: TextStyle(fontSize: 14)),
               ),
               TextFormField(
                 controller: _spouseController,
-                decoration: InputDecoration(labelText: 'Spouse', labelStyle: TextStyle(fontSize: 14)),
+                decoration: InputDecoration(
+                    labelText: 'Spouse', labelStyle: TextStyle(fontSize: 14)),
               ),
               TextFormField(
                 controller: _childController,
-                decoration: InputDecoration(labelText: 'Child', labelStyle: TextStyle(fontSize: 14)),
+                decoration: InputDecoration(
+                    labelText: 'Child', labelStyle: TextStyle(fontSize: 14)),
               ),
-              
+
+              // Add some spacing between the form fields and the button
               SizedBox(height: 16.0),
+
+              // Add relation button
               ElevatedButton(
                 onPressed: _addRelation,
                 child: Text('Add Relations'),
