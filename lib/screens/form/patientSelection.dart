@@ -63,7 +63,7 @@ class _PatientsScreenState extends State<PatientSelectionScreen> {
                       // Get the patient data
                       final patient = filteredPatients[index].data()
                           as Map<String, dynamic>?;
-                      final patientName = patient?['fName'] ?? '';
+                      final patientName = "${patient?['fName']} ${patient?['mName']} ${patient?['lName']}" ?? '';
                       // Return a GestureDetector to handle tapping on a patient
                       return GestureDetector(
                         onTap: () {

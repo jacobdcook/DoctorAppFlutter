@@ -22,6 +22,7 @@ class Appointment {
   String service = "";
   late DateTime schedule;
   late DocumentReference patientRef;
+  late String patientID;
   late DocumentReference userRef;
 
   @override
@@ -30,7 +31,8 @@ class Appointment {
   }
 
   Map<String, dynamic> toJson() => {
-        'patient': patientRef,
+        'patientRef': patientRef,
+        'patientID': patientID,
         'schedule': schedule,
         'service': service,
         'user': userRef
@@ -313,11 +315,13 @@ class _FormPageState extends State<FormPage> {
         (DocumentSnapshot doc) {
           final data = doc.data() as Map<String, dynamic>;
           // update label to selected patient's first and last name
-          patientInput.text = data['name'];
+          patientInput.text = "${data['fName']} ${data['mName']} ${data['lName']}";
+          appointment.patientID = "${data['fName']}${data['mName']}${data['lName']}";
+          appointment.patientRef = patientRef;
         },
         onError: (e) => print("Error getting document: $e"),
       );
-      appointment.patientRef = patientRef;
+      
     }
     // get first and last name of selected patient
   }

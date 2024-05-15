@@ -1,3 +1,4 @@
+import 'package:doctorapp/screens/patients/patiient_details_new.dart';
 import 'package:doctorapp/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,7 @@ class BookingList extends StatelessWidget {
     if (patientSnapshot.exists) {
       Map<String, dynamic> patientData =
           patientSnapshot.data() as Map<String, dynamic>;
-      return patientData['name'] ?? 'No name provided';
+      return "${patientData['fName']} ${patientData['mName']} ${patientData['lName']}" ?? 'No name provided';
     } else {
       return 'Unknown';
     }
@@ -196,7 +197,7 @@ class BookingList extends StatelessWidget {
                   String formattedTime =
                       DateFormat.jm().format(pacificScheduleDate);
 
-                  DocumentReference patientRef = data['patient'];
+                  late DocumentReference patientRef = data['patientRef'];
 
                   return FutureBuilder(
                     future: getPatientName(patientRef),
@@ -272,6 +273,31 @@ class BookingList extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             NewPatientDetailsScreen(patient: patientRef as Map<String, dynamic>),
+                                //       ),
+                                //     );
+                                //   },
+                                //   child: Container(
+                                //     width: 100,
+                                //     height: 35,
+                                //     decoration: BoxDecoration(
+                                //       borderRadius: BorderRadius.circular(10),
+                                //       color: ColorssA.primaryColor,
+                                //     ),
+                                //     child: const Center(
+                                //       child: Text(
+                                //         'Details',
+                                //         style: TextStyle(color: Colors.white),
+                                //       ),
+                                //     ),
+                                //   ),      
+                                // ),
                                 InkWell(
                                   onTap: () => deleteAppointment(document.id),
                                   child: Container(

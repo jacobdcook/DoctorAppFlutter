@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:doctorapp/screens/patients/patiient_details_new.dart';
 import 'package:flutter/material.dart';
 import 'package:doctorapp/screens/patients/patient_details_screen.dart';
+import 'package:doctorapp/screens/patients/patiient_details_new.dart';
 import 'package:doctorapp/screens/signUp/patientRegistration.dart';
 
 class PatientsScreen extends StatefulWidget {
@@ -61,14 +63,14 @@ class _PatientsScreenState extends State<PatientsScreen> {
                     itemBuilder: (context, index) {
                       final patient = filteredPatients[index].data()
                           as Map<String, dynamic>?;
-                      final patientName = patient?['fName'] ?? '';
+                      final patientName = "${patient?['fName']} ${patient?['mName']} ${patient?['lName']}";
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  PatientDetailsScreen(patient: patient),
+                                NewPatientDetailsScreen(patient: patient),
                             ),
                           );
                         },
